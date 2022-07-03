@@ -1,9 +1,10 @@
 package service
 
+import attachments.*
 import data.Post
-import org.junit.Test
-
 import org.junit.Assert.*
+import org.junit.Test
+import java.util.*
 
 class WallServiceTest {
 
@@ -121,6 +122,79 @@ class WallServiceTest {
 
         val result = service.update(postUpdate)
 
+        assertFalse(result)
+    }
+
+    @Test
+    fun getAttachmentExisting() {
+        WallService.clearAllPost()
+        val currentDate = Date()
+
+        val videoPost = Video(
+            id = 1,
+            ownerId = 1,
+            title = "Название тест",
+            description = "Описание тест",
+            duration = 15,
+            date = currentDate,
+            views = 13,
+            comments = 10
+        )
+
+        val photoPost = Photo(
+            id = 1,
+            ownerId = 1,
+            albumId = 13,
+            userId = 1,
+            text = "Фото тест",
+            date = currentDate
+        )
+
+        val audioPost = Audio(
+            id = 1,
+            ownerId = 1,
+            artist = "Исполнитель тест",
+            title = "Название тест",
+            duration = 235,
+            date = currentDate
+        )
+
+        val photoAttachmentPost = PhotoAttachment(photoPost)
+        val audioAttachmentPost = AudioAttachment(audioPost)
+        val videoAttachmentPost = VideoAttachment(videoPost)
+        val attachmentsPost: Array<Attachment> = arrayOf(photoAttachmentPost, audioAttachmentPost, videoAttachmentPost)
+
+        val post = Post(
+            ownerId = 1u,
+            fromId = 1u,
+            text = "Тест пост",
+            attachments = attachmentsPost,
+            replyOwnerId = 1u,
+            replyPostId = 1u,
+            signerId = 1u,
+        )
+
+        val service = WallService
+        service.add(post)
+
+        val result = service.getAttachment(post)
+        assertTrue(result)
+    }
+
+    @Test
+    fun getAttachmentNoExisting() {
+        val post = Post(
+            ownerId = 1u,
+            fromId = 1u,
+            text = "Тест пост",
+            replyOwnerId = 1u,
+            replyPostId = 1u,
+            signerId = 1u,
+        )
+
+        val service = WallService
+        service.add(post)
+        val result = service.getAttachment(post)
         assertFalse(result)
     }
 }

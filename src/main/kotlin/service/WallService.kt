@@ -14,6 +14,24 @@ object WallService {
         return posts.last()
     }
 
+    fun getAttachment(post: Post): Boolean {
+        for (postId in posts) {
+            if (post.id == postId.id) {
+                if (post.attachments.isNotEmpty()) {
+                    for (attachment in post.attachments) {
+                        when (attachment.type) {
+                            "video" -> println(attachment.toString())
+                            "audio" -> println(attachment.toString())
+                            "photo" -> println(attachment.toString())
+                        }
+                    }
+                    return true
+                } else println("[!] У данного поста нет вложений")
+            }
+        }
+        return false
+    }
+
     fun update(post: Post): Boolean {
         for (postId in posts) {
             if (post.id == postId.id) {
@@ -37,7 +55,7 @@ object WallService {
         println("[!] Поста с данным id не существует")
     }
 
-    fun clearAllPost(){
+    fun clearAllPost() {
         posts = emptyArray()
         id = 1u
     }
