@@ -1,6 +1,7 @@
 package service
 
 import attachments.*
+import data.Comment
 import data.Post
 import org.junit.Assert.*
 import org.junit.Test
@@ -183,6 +184,7 @@ class WallServiceTest {
 
     @Test
     fun getAttachmentNoExisting() {
+        WallService.clearAllPost()
         val post = Post(
             ownerId = 1u,
             fromId = 1u,
@@ -196,5 +198,55 @@ class WallServiceTest {
         service.add(post)
         val result = service.getAttachment(post)
         assertFalse(result)
+    }
+
+    @Test(expected = PostNotFoundException::class)
+    fun shouldThrow() {
+        WallService.clearAllPost()
+        val currentDate = Date()
+
+        val post = Post(
+            ownerId = 1u,
+            fromId = 1u,
+            text = "Пост 1",
+            replyOwnerId = 1u,
+            replyPostId = 1u,
+            signerId = 1u,
+        )
+
+        val comment = Comment(
+            fromId = 1,
+            date = currentDate,
+            text = "Комментарий 1 поста"
+        )
+
+        val service = WallService
+        service.add(post)
+        service.createComment(2u, comment)
+    }
+
+    @Test
+    fun shouldNoThrow() {
+        WallService.clearAllPost()
+        val currentDate = Date()
+
+        val post = Post(
+            ownerId = 1u,
+            fromId = 1u,
+            text = "Пост 1",
+            replyOwnerId = 1u,
+            replyPostId = 1u,
+            signerId = 1u,
+        )
+
+        val comment = Comment(
+            fromId = 1,
+            date = currentDate,
+            text = "Комментарий 1 поста"
+        )
+
+        val service = WallService
+        service.add(post)
+        service.createComment(1u, comment)
     }
 }

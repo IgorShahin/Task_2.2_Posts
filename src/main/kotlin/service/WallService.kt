@@ -1,11 +1,23 @@
 package service
 
+import data.Comment
 import data.Post
 import java.util.*
 
 object WallService {
     private var posts = emptyArray<Post>()
+    private var comments = emptyArray<Comment>()
     private var id = 1u
+
+    fun createComment(postId: UInt, comment: Comment): Comment {
+        for (post in posts) {
+            if (post.id == postId) {
+                comments += comment.copy(id = comment.id + 1)
+                return comments.last()
+            }
+        }
+        throw PostNotFoundException("no post with id $postId")
+    }
 
     fun add(post: Post): Post {
         val currentDate = Date()
@@ -59,4 +71,7 @@ object WallService {
         posts = emptyArray()
         id = 1u
     }
+
 }
+
+class PostNotFoundException(message: String) : RuntimeException(message)

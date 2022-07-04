@@ -1,4 +1,5 @@
 import attachments.*
+import data.Comment
 import data.Post
 import service.WallService
 import java.util.*
@@ -86,8 +87,15 @@ fun main() {
         signerId = 2u,
     )
 
+    val comment = Comment(
+        fromId = 1,
+        date = currentDate,
+        text = "Комментарий 1 поста"
+    )
+
     val service = WallService
     service.add(post1)
+    println(service.createComment(1u, comment))
     service.getAttachment(post1)
     service.add(post2)
     service.add(post3)
