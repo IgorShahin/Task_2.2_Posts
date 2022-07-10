@@ -1,106 +1,63 @@
-import attachments.*
-import data.Comment
-import data.Post
-import service.WallService
+import notes.CommentNote
+import notes.Note
+import notes.Sort
+import service.NoteService
+import java.lang.Thread.sleep
 import java.util.*
 
 fun main() {
 
-    val currentDate = Date()
-
-    // Post1
-    val videoPost1 = Video(
-        id = 1,
-        ownerId = 1,
-        title = "Видео",
-        description = "Описание видео",
-        duration = 15,
-        date = currentDate,
-        views = 13,
-        comments = 10
+    val noteFirst = Note(
+        title = "Заметка 1",
+        text = "Текст заметки 1",
+        date = Date()
     )
 
-    val videoAttachmentPost1 = VideoAttachment(videoPost1)
-    val attachmentsPost1: Array<Attachment> = arrayOf(videoAttachmentPost1)
-
-    val post1 = Post(
-        ownerId = 1u,
-        fromId = 1u,
-        text = "Пост 1",
-        attachments = attachmentsPost1,
-        replyOwnerId = 1u,
-        replyPostId = 1u,
-        signerId = 1u,
+    val noteTwo = Note(
+        title = "Заметка 2",
+        text = "Текст заметки 2",
+        date = Date()
     )
 
-    // Post 2
-    val photoPost2 = Photo(
-        id = 2,
-        ownerId = 2,
-        albumId = 13,
-        userId = 2,
-        text = "Альбом Toxicity",
-        date = currentDate
+    val noteThree = Note(
+        title = "Заметка 3",
+        text = "Текст заметки 3",
+        date = Date()
     )
 
-    val audioPost2 = Audio(
-        id = 2,
-        ownerId = 2,
-        artist = "System Of A Down",
-        title = "Aerials",
-        duration = 235,
-        date = currentDate
+    val comment1 = CommentNote(
+        uid = 1,
+        date = Date(),
+        message = "1 комментарий"
     )
 
-    val photoAttachmentPost2 = PhotoAttachment(photoPost2)
-    val audioAttachmentPost2 = AudioAttachment(audioPost2)
-    val attachmentsPost2: Array<Attachment> = arrayOf(photoAttachmentPost2, audioAttachmentPost2)
-
-
-    val post2 = Post(
-        ownerId = 2u,
-        fromId = 2u,
-        text = "Пост 2",
-        attachments = attachmentsPost2,
-        replyOwnerId = 2u,
-        replyPostId = 2u,
-        signerId = 2u,
+    val comment2 = CommentNote(
+        uid = 1,
+        date = Date(),
+        message = "2 комментарий"
     )
 
-    // Post 3
-    val post3 = Post(
-        ownerId = 3u,
-        fromId = 3u,
-        text = "Пост 3",
-        replyOwnerId = 3u,
-        replyPostId = 3u,
-        signerId = 3u,
+    val comment3 = CommentNote(
+        uid = 1,
+        date = Date(),
+        message = "3 комментарий"
     )
 
-    val postUpdate = Post(
-        id = 2u,
-        ownerId = 2u,
-        fromId = 2u,
-        text = "Измененный пост 2",
-        replyOwnerId = 2u,
-        replyPostId = 2u,
-        signerId = 2u,
+    val comment4 = CommentNote(
+        uid = 1,
+        date = Date(),
+        message = "4 комментарий"
     )
 
-    val comment = Comment(
-        fromId = 1,
-        date = currentDate,
-        text = "Комментарий 1 поста"
-    )
+    val service = NoteService
+    service.add(noteFirst)
+    service.add(noteTwo)
+    service.add(noteThree)
+//    println(service.get(1,3, Sort.DESCENDING))
+    service.createComment(2, comment1)
+    service.createComment(2, comment2)
+    service.createComment(1, comment4)
+    service.createComment(3, comment3)
 
-    val service = WallService
-    service.add(post1)
-    println(service.createComment(1u, comment))
-    service.getAttachment(post1)
-    service.add(post2)
-    service.add(post3)
-    service.showPost(2u)
-    service.update(postUpdate)
-    service.showPost(2u)
-
+    service.deleteComment(2)
 }

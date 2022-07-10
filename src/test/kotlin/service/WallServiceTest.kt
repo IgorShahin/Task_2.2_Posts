@@ -247,6 +247,8 @@ class WallServiceTest {
 
         val service = WallService
         service.add(post)
-        service.createComment(1u, comment)
+        val result = service.createComment(1u, comment)
+
+        assertNotNull(result)
     }
 }
