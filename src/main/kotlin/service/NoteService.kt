@@ -60,18 +60,20 @@ object NoteService : INote<Note, CommentNote> {
     override fun get(noteId: Int, count: Int, sort: Sort): ArrayList<Note> {
         if (noteId + count - 1 <= notes.size) {
             val result = arrayListOf<Note>()
-            var countSize = count + 1
-            var noteIdNum = noteId - 1
+            var countSize = count
+            var noteIdNum = noteId
 
             for (note in notes) {
                 if (note.noteId == noteId && note.noteDelete) throw NoteNotFoundException("no note with id")
             }
 
             for (note in notes) {
-                noteIdNum++
-                if (noteIdNum == note.noteId && countSize > 0 && !note.noteDelete) {
-                    result += note.copy()
+                if (noteIdNum == note.noteId && countSize > 0) {
+                    if (!note.noteDelete) {
+                        result += note.copy()
+                    }
                     countSize--
+                    noteIdNum++
                 }
             }
             when (sort) {
@@ -80,7 +82,7 @@ object NoteService : INote<Note, CommentNote> {
             }
             return result
         }
-        throw NoteNotFoundException("no note with id")
+        throw NoteCountException("notes exceeded")
     }
 
     override fun getById(noteId: Int): Note {
@@ -92,7 +94,7 @@ object NoteService : INote<Note, CommentNote> {
         throw NoteNotFoundException("no note with id $noteId")
     }
 
-    override fun getComments(noteId: Int, sort: Sort, count: Int): ArrayList<CommentNote> {
+    override fun getComments(noteId: Int, count: Int, sort: Sort): ArrayList<CommentNote> {
         val result = arrayListOf<CommentNote>()
 
         if (comments.size >= count) {
@@ -107,7 +109,7 @@ object NoteService : INote<Note, CommentNote> {
             }
             return result
         }
-        throw CommentNotFoundException("no comment with id")
+        throw CommentCountException("Number of comments exceeded")
     }
 
     override fun restoreComment(commentId: Int): Boolean {
@@ -157,8 +159,10 @@ object NoteService : INote<Note, CommentNote> {
 class NoteNotFoundException(message: String) : RuntimeException(message)
 class NoteNotEditException(message: String) : RuntimeException(message)
 class NoteNotDeleteException(message: String) : RuntimeException(message)
+class NoteCountException(message: String) : RuntimeException(message)
 
 class CommentNotFoundException(message: String) : RuntimeException(message)
 class CommentNotResetException(message: String) : RuntimeException(message)
 class CommentNotEditException(message: String) : RuntimeException(message)
 class CommentNotDeleteException(message: String) : RuntimeException(message)
+class CommentCountException(message: String) : RuntimeException(message)

@@ -18,7 +18,7 @@ interface INote<N, C> {
 
     fun getById(noteId: Int): N
 
-    fun getComments(noteId: Int, sort: Sort, count: Int): ArrayList<C>
+    fun getComments(noteId: Int, count: Int, sort: Sort): ArrayList<C>
 
     fun restoreComment(commentId: Int): Boolean
 }

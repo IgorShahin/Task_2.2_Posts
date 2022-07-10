@@ -60,4 +60,6 @@ fun main() {
     service.createComment(3, comment3)
 
     service.deleteComment(2)
+    service.delete(2)
+    println(service.get(1,3,Sort.INCREASE))
 }
