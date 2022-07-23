@@ -1,65 +1,78 @@
-import notes.CommentNote
-import notes.Note
-import notes.Sort
-import service.NoteService
-import java.lang.Thread.sleep
+import chat.Chat
+import chat.Message
+import service.ChatService
 import java.util.*
 
 fun main() {
 
-    val noteFirst = Note(
-        title = "Заметка 1",
-        text = "Текст заметки 1",
+//    val message = Message(
+//        textMessage = "Первый отправитель",
+//        idUserSender = 1,
+//        idUserRecipient = 2,
+//        date = Date()
+//    )
+//
+//    val message2 = Message(
+//        textMessage = "второй отправитель",
+//        idUserSender = 2,
+//        idUserRecipient = 1,
+//        date = Date()
+//    )
+//
+//    val message3 = Message(
+//        textMessage = "второй отправитель",
+//        idUserSender = 1,
+//        idUserRecipient = 3,
+//        date = Date()
+//    )
+//
+//    val chat = Chat(
+//        lastMessage = message,
+//        date = Date()
+//    )
+//
+//    val chat2 = Chat(
+//        lastMessage = message2,
+//        date = Date()
+//    )
+//
+//    val service = ChatService
+//    service.add(chat)
+//    service.add(chat2)
+////    service.createMessage(message2)
+////    service.createMessage(message2)
+////    service.createMessage(1, message2)
+////    service.deleteMessage(idChat = 1, messageId = 2)
+////    println(service.getMessage(2, 1, 2))
+////    println(service.getMessage(2, 1, 2))
+////    service.deleteMessage(1,1)
+//    println(service.getMessage(2,1,1))
+////    println(service.getMessage(2,1,1))
+////    println(service.getMessage(1,2,1))
+//    println(service.getUnreadChatsCount())
+
+    val message = Message(
+        textMessage = "Тест сообщение",
+        idUserSender = 1,
+        idUserRecipient = 2,
         date = Date()
     )
 
-    val noteTwo = Note(
-        title = "Заметка 2",
-        text = "Текст заметки 2",
+    val messageTest = Message(
+        textMessage = "Тест сообщение 2",
+        idUserSender = 2,
+        idUserRecipient = 1,
         date = Date()
     )
 
-    val noteThree = Note(
-        title = "Заметка 3",
-        text = "Текст заметки 3",
+    val chat = Chat(
+        lastMessage = message,
         date = Date()
     )
 
-    val comment1 = CommentNote(
-        uid = 1,
-        date = Date(),
-        message = "1 комментарий"
-    )
-
-    val comment2 = CommentNote(
-        uid = 1,
-        date = Date(),
-        message = "2 комментарий"
-    )
-
-    val comment3 = CommentNote(
-        uid = 1,
-        date = Date(),
-        message = "3 комментарий"
-    )
-
-    val comment4 = CommentNote(
-        uid = 1,
-        date = Date(),
-        message = "4 комментарий"
-    )
-
-    val service = NoteService
-    service.add(noteFirst)
-    service.add(noteTwo)
-    service.add(noteThree)
-//    println(service.get(1,3, Sort.DESCENDING))
-    service.createComment(2, comment1)
-    service.createComment(2, comment2)
-    service.createComment(1, comment4)
-    service.createComment(3, comment3)
-
-    service.deleteComment(2)
-    service.delete(2)
-    println(service.get(1,3,Sort.INCREASE))
+    val service = ChatService
+    service.add(chat)
+    service.createMessage(messageTest)
+    service.deleteMessage(1, 1)
+    println(service.getMessage(1, 1, 1))
 }
