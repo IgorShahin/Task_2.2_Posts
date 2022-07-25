@@ -29,7 +29,7 @@ data class Comment(
     val donut: Any? = null,
     val replyToUser: Int? = 0,
     val replyToComment: Int? = 0,
-    val attachments: Array<Attachment> = emptyArray(),
+    val attachments: Array<Attachment> = emptyArray()
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
