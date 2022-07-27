@@ -109,7 +109,7 @@ private fun List<Chat>.readMessage(idUser: Int, idChat: Int, countMessage: Int):
 
 private fun List<Chat>.lastElementRemovalCheck(idChat: Int) {
     val elem =
-        this.find { it.id == idChat }?.messages?.asSequence()?.filter { it.idChat == idChat }
+        this.find { it.id == idChat }?.messages?.filter { it.idChat == idChat }
             ?.sortedByDescending { it.id }
             ?.find { !it.delete }
     this.find { it.lastMessage?.delete == true }.apply { this?.lastMessage = elem }

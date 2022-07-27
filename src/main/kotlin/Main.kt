@@ -75,5 +75,6 @@ fun main() {
     service.createMessage(messageTest)
 //    service.deleteMessage(1, 1)
     println(service.getMessage(2, 1, 2).joinToString("\n"))
-    println(service.getUnreadChatsCount())
+    service.deleteMessage(1, 2)
+    println(service.getChats(1).joinToString { it.lastMessage.toString() })
 }
