@@ -60,8 +60,8 @@ fun main() {
 
     val messageTest = Message(
         textMessage = "Тест сообщение 2",
-        idUserSender = 2,
-        idUserRecipient = 1,
+        idUserSender = 1,
+        idUserRecipient = 2,
         date = Date()
     )
 
@@ -73,6 +73,7 @@ fun main() {
     val service = ChatService
     service.add(chat)
     service.createMessage(messageTest)
-    service.deleteMessage(1, 1)
-    println(service.getMessage(1, 1, 1))
+//    service.deleteMessage(1, 1)
+    println(service.getMessage(2, 1, 2).joinToString("\n"))
+    println(service.getUnreadChatsCount())
 }
