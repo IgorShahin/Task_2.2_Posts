@@ -99,8 +99,9 @@ object ChatService : IChat<Chat, Message> {
 private fun List<Chat>.readMessage(idUser: Int, idChat: Int, countMessage: Int): List<Message> {
     val messageRead =
         this.find { it -> it.id == idChat && !it.delete && countMessage <= it.messages.count { it.idUserRecipient == idUser && !it.delete } }
-            ?.messages?.filter { it.idChat == idChat && it.idUserRecipient == idUser && !it.delete }?.take(countMessage)
-            ?.onEach { it.markRead = true }
+            ?.messages?.asSequence()?.filter { it.idChat == idChat && it.idUserRecipient == idUser && !it.delete }
+            ?.take(countMessage)
+            ?.onEach { it.markRead = true }?.toList()
             ?: throw MessageException("element with given index not found")
     this.find { it -> it.id == idChat && it.messages.all { it.markRead } }?.apply { markRead = true }
     return messageRead
